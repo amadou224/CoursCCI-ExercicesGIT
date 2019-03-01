@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.Sql;
+using System.Data.SqlClient;
+
+namespace ProjetUserFormGestionStock
+{
+    public partial class frmLogin : Form
+    {   
+        
+        
+        public frmLogin()
+        {
+            InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+                                                                                  
+        }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            //this.AcceptButton = btnLogin;
+            SqlConnection sqlcon = new SqlConnection(@"Server=.\SQLExpress;Database=ProjetDrissBah; Trusted_Connection=yes");
+
+
+            string query = "Select * from Utilisateur where Login = '" + txtUsername.Text.Trim() + "'and motDePasse ='" + txtPassword.Text.Trim() + "'";
+
+            SqlDataAdapter sda = new SqlDataAdapter(query, sqlcon);
+            DataTable dtbl = new DataTable();
+            sda.Fill(dtbl);
+            if (dtbl.Rows.Count == 1)
+            {
+                Menu objMenu = new Menu();
+                this.Hide();
+                objMenu.Show();
+            }
+            else
+            {
+                MessageBox.Show("Rentrez le bon login et le bon mot de passe ");
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
